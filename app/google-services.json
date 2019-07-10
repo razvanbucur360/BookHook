@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "531718869642",
+    "firebase_url": "https://bookhook-baa20.firebaseio.com",
+    "project_id": "bookhook-baa20",
+    "storage_bucket": "bookhook-baa20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531718869642:android:aa4feaf56ea3eaea",
+        "android_client_info": {
+          "package_name": "com.example.bookhook2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "531718869642-79spov9vd3pik7fenud4ndi2bmm1ich8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bookhook2",
+            "certificate_hash": "25d41363a0e0efb032b9d661f685bc003844cec3"
+          }
+        },
+        {
+          "client_id": "531718869642-v2gv7lou196occ3t0hqoe8l3vd0ul60i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5Ol7_PaxnozVtIZaARDz_Z99SnHrJaIo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531718869642-v2gv7lou196occ3t0hqoe8l3vd0ul60i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
