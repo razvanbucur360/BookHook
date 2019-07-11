@@ -1,14 +1,18 @@
 package com.example.bookhook2.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.bookhook2.R;
 import com.example.bookhook2.adapters.CategoryAdapter;
@@ -38,6 +42,14 @@ public class ExploreFragment extends Fragment {
 
         mFireBaseDataBase = FirebaseDatabase.getInstance();
         mDBReference = mFireBaseDataBase.getReference().child("categories");
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                FragmentTransaction fr = getFragmentManager().beginTransaction();
+                fr.replace(R.id.fragment, new EventListFragment());
+                fr.commit();
+            }
+        });
 
         initialiseData();
 
