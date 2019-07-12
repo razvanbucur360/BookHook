@@ -14,6 +14,8 @@ public class Event implements Serializable {
     private String imageURL;
     private String address;
     private String stringDate;
+    private String price;
+    private String category;
 
     public Event(){
 
@@ -28,13 +30,15 @@ public class Event implements Serializable {
         this.address = address;
     }
 
-    public Event(String name, String location, String description, String imageURL, String address, String stringDate) {
+    public Event(String name, String location, String description, String imageURL, String address, String stringDate, String price, String category) {
         this.name = name;
         this.location = location;
         this.description = description;
         this.imageURL = imageURL;
         this.address = address;
         this.stringDate = stringDate;
+        this.price = price;
+        this.category = category;
     }
 
     public String getName() {
@@ -64,5 +68,13 @@ public class Event implements Serializable {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public String getCategory() {
+        return category;
     }
 }
