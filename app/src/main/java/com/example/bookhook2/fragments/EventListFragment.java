@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.bookhook2.R;
 import com.example.bookhook2.adapters.EventListAdapter;
@@ -28,6 +30,16 @@ public class EventListFragment extends Fragment {
     private ArrayList<Event> mEvents;
     private EventListAdapter mEventListAdapter;
     private ChildEventListener mListener;
+    private String eventType;
+
+
+    public EventListFragment() {
+
+    }
+
+    public EventListFragment(String eventType) {
+        this.eventType = eventType;
+    }
 
     @Nullable
     @Override
@@ -40,6 +52,16 @@ public class EventListFragment extends Fragment {
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mEventsReference = mFirebaseDatabase.getReference().child("events");
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Fragment lCurrentFragment = new EventDescriptionFragment(mEventListAdapter.getItem(i));
+                FragmentTransaction fr = getFragmentManager().beginTransaction();
+                fr.replace(R.id.fragment, lCurrentFragment);
+                fr.commit();
+            }
+        });
 
 //        Event event = new Event("Neversea","Constanta, Romania","Come and live your dreams at the shores of Constanta",
 //                 "https://pbs.twimg.com/profile_images/851357217655795712/tYSlqPja_400x400.jpg", "Plaja Modern", "2019/07/04","100$","Music");
@@ -108,7 +130,8 @@ public class EventListFragment extends Fragment {
 
                 }
             };
-            mEventsReference.addChildEventListener(mListener);
+            mEventsReference.orderByChild("category").equalTo(eventType).addChildEventListener(mListener);
+
         }
     }
 

@@ -50,16 +50,16 @@ public class ExploreFragment extends Fragment {
                 Fragment lCurrentFragment = null;
                 switch(i){
                     case 0:
-                        lCurrentFragment = new SportsEventsFragment();
+                        lCurrentFragment = new EventListFragment("Sports");
                         break;
                     case 1:
-                        lCurrentFragment = new SocialEventsFragment();
+                        lCurrentFragment = new EventListFragment("Social");
                         break;
                     case 2:
-                        lCurrentFragment = new MusicEventsFragment();
+                        lCurrentFragment = new EventListFragment("Music");
                         break;
                     case 3:
-                        lCurrentFragment = new CulturalEventsFragment();
+                        lCurrentFragment = new EventListFragment("Cultural");
                         break;
                 }
                 FragmentTransaction fr = getFragmentManager().beginTransaction();
