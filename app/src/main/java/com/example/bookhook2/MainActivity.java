@@ -1,50 +1,47 @@
 package com.example.bookhook2;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.bookhook2.fragments.EventListFragment;
-import com.example.bookhook2.fragments.ExploreFragment;
-import com.example.bookhook2.models.Event;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.DatabaseReference;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-
 import net.danlew.android.joda.JodaTimeAndroid;
-
-import org.joda.time.LocalDate;
-
-import java.util.Date;
-
 import static com.example.bookhook2.util.Constants.ERROR_DIALOG_REQUEST;
 import static com.example.bookhook2.util.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.example.bookhook2.util.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = "MainActivity";
     private FirebaseDatabase mFireBaseDataBase;
-    private DatabaseReference mDBReference;
-    private Fragment mCurrentFragment;
     private boolean mLocationPermissionGranted = false;
+    private Button buttonRegister;
+    private EditText editTextEmail;
+    private EditText editTextPassword;
+    private TextView textViewSignIn;
+    private ProgressDialog progressDialog;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,32 +49,22 @@ public class MainActivity extends AppCompatActivity {
         JodaTimeAndroid.init(this);
         setContentView(R.layout.activity_main);
         mFireBaseDataBase = FirebaseDatabase.getInstance();
-        BottomNavigationView mNavigation = findViewById(R.id.navigation_view);
-        BottomNavigationView.OnNavigationItemSelectedListener mNavigationListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment mCurrentFragment = null;
-                switch (menuItem.getItemId()){
-                    case R.id.navigation_browse:
-                        mCurrentFragment = new ExploreFragment();
-                        break;
-                    case R.id.navigation_search:
-                        mCurrentFragment = new EventListFragment();
-                        break;
-                    case R.id.navigation_profile:
+        firebaseAuth = FirebaseAuth.getInstance();
 
-                        break;
+        if(firebaseAuth.getCurrentUser() != null){
+            finish();
+            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+        }
 
-                }
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment, mCurrentFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return true;
-            }
+        buttonRegister = (Button) findViewById(R.id.buttonRegister);
+        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
+        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        textViewSignIn = (TextView) findViewById(R.id.textSignIn);
+        progressDialog = new ProgressDialog(this);
 
-        };
-        mNavigation.setOnNavigationItemSelectedListener(mNavigationListener);
+        buttonRegister.setOnClickListener(this);
+        textViewSignIn.setOnClickListener(this);
+
     }
 
     protected void onResume(){
@@ -197,4 +184,47 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onClick(View view) {
+        if(view == buttonRegister){
+            registerUser();
+        }
+
+        if(view == textViewSignIn){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+    }
+
+    private void registerUser() {
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        if(TextUtils.isEmpty(email)){
+            Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(password)){
+            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        progressDialog.setMessage("Registering User...");
+        progressDialog.show();
+
+        firebaseAuth.createUserWithEmailAndPassword(email,password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
+                        if(task.isSuccessful()){
+                                finish();
+                                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                        }
+                        else{
+                            Toast.makeText(MainActivity.this, "Could not register, please try again",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+    }
 }

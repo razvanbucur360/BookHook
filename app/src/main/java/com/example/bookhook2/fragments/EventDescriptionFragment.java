@@ -68,10 +68,10 @@ public class EventDescriptionFragment extends Fragment implements OnMapReadyCall
         List<Address> lAddresses = mGeocoder.getFromLocationName(event.getAddress(),3);
         Address lAddressForMap = lAddresses.get(0);
 
-        double bottomBoundary = lAddressForMap.getLatitude() - .1;
-        double leftBoundary = lAddressForMap.getLongitude() - .1;
-        double topBoundary = lAddressForMap.getLatitude() + .1;
-        double rightBoundary = lAddressForMap.getLongitude() + .1;
+        double bottomBoundary = lAddressForMap.getLatitude() - .05;
+        double leftBoundary = lAddressForMap.getLongitude() - .05;
+        double topBoundary = lAddressForMap.getLatitude() + .05;
+        double rightBoundary = lAddressForMap.getLongitude() + .05;
 
         mMapBoundary = new LatLngBounds(
                 new LatLng(bottomBoundary, leftBoundary),
