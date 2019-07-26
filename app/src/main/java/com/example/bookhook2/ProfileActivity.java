@@ -39,7 +39,6 @@ public class ProfileActivity extends AppCompatActivity {
         //bring up the categories
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment, new ExploreFragment());
-        transaction.addToBackStack(null);
         transaction.commit();
 
         BottomNavigationView mNavigation = findViewById(R.id.navigation_view);

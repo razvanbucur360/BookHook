@@ -59,6 +59,7 @@ public class EventListFragment extends Fragment {
                 Fragment lCurrentFragment = new EventDescriptionFragment(mEventListAdapter.getItem(i));
                 FragmentTransaction fr = getFragmentManager().beginTransaction();
                 fr.replace(R.id.fragment, lCurrentFragment);
+                fr.addToBackStack(null);
                 fr.commit();
             }
         });

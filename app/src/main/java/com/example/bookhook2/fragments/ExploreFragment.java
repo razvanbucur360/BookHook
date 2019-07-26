@@ -1,11 +1,14 @@
 package com.example.bookhook2.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.bookhook2.NetworkUtils;
 import com.example.bookhook2.R;
 import com.example.bookhook2.adapters.CategoryAdapter;
 import com.example.bookhook2.models.Category;
@@ -23,10 +27,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class ExploreFragment extends Fragment {
+public class ExploreFragment extends Fragment implements View.OnClickListener {
 
     private FirebaseDatabase mFireBaseDataBase;
     private DatabaseReference mDBReference;
@@ -34,6 +41,7 @@ public class ExploreFragment extends Fragment {
     private ArrayList<Category> mCatergories;
     private CategoryAdapter categoryAdapter;
     private ChildEventListener listener;
+    private TextView textAllCategories;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = (View) inflater.inflate(R.layout.explore_fragment, container, false);
@@ -41,6 +49,20 @@ public class ExploreFragment extends Fragment {
         categoryAdapter = new CategoryAdapter(getContext(), mCatergories);
         ListView listView = view.findViewById(R.id.categories);
         listView.setAdapter(categoryAdapter);
+        textAllCategories = (TextView) view.findViewById(R.id.textAllCategories);
+        textAllCategories.setText("All Categories");
+
+        Bitmap resultBitmap = null;
+        try {
+            resultBitmap = new NetworkUtils().execute("https://cdn.pixabay.com/photo/2017/11/24/10/43/admission-2974645_960_720.jpg").get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(resultBitmap != null) {
+            textAllCategories.setBackground(new BitmapDrawable(getContext().getResources(), resultBitmap));
+        }
+
+        textAllCategories.setOnClickListener(this);
 
         mFireBaseDataBase = FirebaseDatabase.getInstance();
         mDBReference = mFireBaseDataBase.getReference().child("categories");
@@ -64,6 +86,7 @@ public class ExploreFragment extends Fragment {
                 }
                 FragmentTransaction fr = getFragmentManager().beginTransaction();
                 fr.replace(R.id.fragment, lCurrentFragment);
+                fr.addToBackStack(null);
                 fr.commit();
             }
         });
@@ -100,6 +123,7 @@ public class ExploreFragment extends Fragment {
         return view;
     }
 
+
     private void initialiseData() {
         if(listener == null){
             listener = new ChildEventListener() {
@@ -132,6 +156,17 @@ public class ExploreFragment extends Fragment {
                 }
             };
             mDBReference.addChildEventListener(listener);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view == textAllCategories){
+            Fragment lCurrentFragment = new AllCategoryEventsFragment();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment, lCurrentFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         }
     }
 }
