@@ -2,6 +2,7 @@ package com.example.bookhook2.fragments;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.bookhook2.PaymentActivity;
 import com.example.bookhook2.R;
 import com.example.bookhook2.models.Event;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,7 +38,7 @@ import java.util.Locale;
 
 import static com.example.bookhook2.util.Constants.MAPVIEW_BUNDLE_KEY;
 
-public class EventDescriptionFragment extends Fragment implements OnMapReadyCallback {
+public class EventDescriptionFragment extends Fragment implements OnMapReadyCallback, View.OnClickListener {
 
     private Event event = null;
     private Context mContext = getContext();
@@ -43,6 +46,7 @@ public class EventDescriptionFragment extends Fragment implements OnMapReadyCall
     private Geocoder mGeocoder;
     private GoogleMap mGoogleMap;
     private LatLngBounds mMapBoundary;
+    private Button mBuyButton;
 
 
     public EventDescriptionFragment(Event item) {
@@ -55,9 +59,12 @@ public class EventDescriptionFragment extends Fragment implements OnMapReadyCall
         View view = (View)inflater.inflate(R.layout.event_description, container, false);
         mContext = view.getContext();
         mMapView = view.findViewById(R.id.event_map);
+        mBuyButton = view.findViewById(R.id.buyButton);
 
         initView(view);
         initGoogleMap(savedInstanceState);
+
+        mBuyButton.setOnClickListener(this);
 
         return view;
 
@@ -189,4 +196,10 @@ public class EventDescriptionFragment extends Fragment implements OnMapReadyCall
         mMapView.onLowMemory();
     }
 
+    @Override
+    public void onClick(View view) {
+        if(view == mBuyButton){
+            startActivity(new Intent(getActivity(), PaymentActivity.class));
+        }
+    }
 }

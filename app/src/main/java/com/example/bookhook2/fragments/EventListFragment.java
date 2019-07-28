@@ -151,7 +151,6 @@ public class EventListFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 

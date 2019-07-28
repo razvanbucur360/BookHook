@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.bookhook2.fragments.AllCategoryEventsFragment;
 import com.example.bookhook2.fragments.EventListFragment;
 import com.example.bookhook2.fragments.ExploreFragment;
 import com.example.bookhook2.fragments.UserProfileFragment;
@@ -73,12 +74,13 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
-        if(fragment instanceof EventListFragment){
+        if(fragment instanceof EventListFragment || fragment instanceof AllCategoryEventsFragment){
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment, new ExploreFragment());
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-        }else{
+        }
+        else{
             super.onBackPressed();
         }
     }
