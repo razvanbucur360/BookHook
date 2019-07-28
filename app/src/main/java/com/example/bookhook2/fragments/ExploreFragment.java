@@ -16,10 +16,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookhook2.NetworkUtils;
 import com.example.bookhook2.R;
 import com.example.bookhook2.adapters.CategoryAdapter;
+import com.example.bookhook2.adapters.CategoryRecycledAdapter;
 import com.example.bookhook2.models.Category;
 import com.example.bookhook2.models.Event;
 import com.google.firebase.database.ChildEventListener;
@@ -42,16 +45,31 @@ public class ExploreFragment extends Fragment implements View.OnClickListener {
     private CategoryAdapter categoryAdapter;
     private ChildEventListener listener;
     private TextView textAllCategories;
+    private ListView listView;
+//    private RecyclerView.Adapter mAdapter;
+//    private RecyclerView mRecyclerView;
+//    private RecyclerView.LayoutManager mLayoutManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = (View) inflater.inflate(R.layout.explore_fragment, container, false);
         mCatergories = new ArrayList<Category>();
         categoryAdapter = new CategoryAdapter(getContext(), mCatergories);
-        ListView listView = view.findViewById(R.id.categories);
-        listView.setAdapter(categoryAdapter);
+
+
+        //-------ATTEMPT TO USE RECYCLER VIEW----
+
+//        mRecyclerView = view.findViewById(R.id.categories);
+//        mRecyclerView.setHasFixedSize(true);
+//        mLayoutManager = new LinearLayoutManager(getContext());
+//        mAdapter = new CategoryRecycledAdapter(mCatergories);
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+//        mRecyclerView.setAdapter(mAdapter);
+
+
+        //----------SETTING UP THE ALL CATEGORIES TILE---------
+
         textAllCategories = (TextView) view.findViewById(R.id.textAllCategories);
         textAllCategories.setText("All Categories");
-
         Bitmap resultBitmap = null;
         try {
             resultBitmap = new NetworkUtils().execute("https://cdn.pixabay.com/photo/2017/11/24/10/43/admission-2974645_960_720.jpg").get();
@@ -61,11 +79,17 @@ public class ExploreFragment extends Fragment implements View.OnClickListener {
         if(resultBitmap != null) {
             textAllCategories.setBackground(new BitmapDrawable(getContext().getResources(), resultBitmap));
         }
-
         textAllCategories.setOnClickListener(this);
+
+        //------SETTING THE NODE TO BE CATEGORIES IN FIREBASE-----
 
         mFireBaseDataBase = FirebaseDatabase.getInstance();
         mDBReference = mFireBaseDataBase.getReference().child("categories");
+
+        //---------NAVIGATION TO THE EVENT LIST FRAGMENT, IN FUNCTION OF TYPE OF EVENTS------
+
+        listView = view.findViewById(R.id.categories);
+        listView.setAdapter(categoryAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -124,6 +148,8 @@ public class ExploreFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    //--------GETTING THE CATEGORIES FROM FIREBASE--------
+
     private void initialiseData() {
         if(listener == null){
             listener = new ChildEventListener() {
@@ -169,4 +195,5 @@ public class ExploreFragment extends Fragment implements View.OnClickListener {
             fragmentTransaction.commit();
         }
     }
+
 }

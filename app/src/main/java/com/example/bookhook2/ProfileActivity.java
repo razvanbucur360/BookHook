@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,19 +51,16 @@ public class ProfileActivity extends AppCompatActivity {
                     case R.id.navigation_browse:
                         lCurrentFragment = new ExploreFragment();
                         break;
-                    case R.id.navigation_search:
-                        lCurrentFragment = new EventListFragment();
-                        break;
                     case R.id.navigation_profile:
                         lCurrentFragment = new UserProfileFragment();
                         break;
 
                 }
 
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment, lCurrentFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment, lCurrentFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
                 return true;
             }
 
@@ -70,5 +68,18 @@ public class ProfileActivity extends AppCompatActivity {
 
         mNavigation.setOnNavigationItemSelectedListener(mNavigationListener);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
+        if(fragment instanceof EventListFragment){
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment, new ExploreFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }else{
+            super.onBackPressed();
+        }
     }
 }

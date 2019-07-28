@@ -22,7 +22,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ProfileActivity"></activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:windowSoftInputMode="adjustNothing">
+        </activity>
         <activity android:name=".LoginActivity"></activity>
 
         <meta-data
