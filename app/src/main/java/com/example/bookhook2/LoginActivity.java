@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        if(firebaseAuth.getCurrentUser() != null){
+        if(firebaseAuth.getCurrentUser() != null && firebaseAuth.getCurrentUser().isEmailVerified()){
             finish();
             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
         }
@@ -85,8 +85,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if(task.isSuccessful()){
-                            finish();
-                            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                            if(firebaseAuth.getCurrentUser().isEmailVerified()){
+                                finish();
+                                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                            }
+                            else{
+                                Toast.makeText(LoginActivity.this,
+                                        "Please verify your email address.",
+                                        Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 });

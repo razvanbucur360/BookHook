@@ -1,9 +1,4 @@
 package com.example.bookhook2;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -19,6 +14,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,7 +28,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+
 import net.danlew.android.joda.JodaTimeAndroid;
+
 import static com.example.bookhook2.util.Constants.ERROR_DIALOG_REQUEST;
 import static com.example.bookhook2.util.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.example.bookhook2.util.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
@@ -51,9 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFireBaseDataBase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
 
-        if(firebaseAuth.getCurrentUser() != null){
+        if(firebaseAuth.getCurrentUser() != null && firebaseAuth.getCurrentUser().isEmailVerified()){
             finish();
-            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
 
         buttonRegister = (Button) findViewById(R.id.buttonRegister);
@@ -217,8 +221,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if(task.isSuccessful()){
-                                finish();
-                                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                            firebaseAuth.getCurrentUser().sendEmailVerification()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                Toast.makeText(MainActivity.this,
+                                                        "Registered successfully. Please check email for verification.",
+                                                        Toast.LENGTH_LONG).show();
+                                                finish();
+                                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                                            }
+                                            else{
+                                                Toast.makeText(MainActivity.this,
+                                                        task.getException().getMessage(),
+                                                        Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
                         }
                         else{
                             Toast.makeText(MainActivity.this, "Could not register, please try again",Toast.LENGTH_SHORT).show();

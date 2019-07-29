@@ -2,7 +2,6 @@ package com.example.bookhook2;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.braintreepayments.cardform.view.CardForm;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class PaymentActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -53,7 +53,19 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        Toast.makeText(PaymentActivity.this, "Thank you for purchase", Toast.LENGTH_LONG).show();
+                        sendTicketEmail();
+                        Toast.makeText(PaymentActivity.this, "Thank you for the purchase. Check email for confirmation.", Toast.LENGTH_LONG).show();
+                    }
+
+                    private void sendTicketEmail() {
+                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                        String recipient = firebaseAuth.getCurrentUser().getEmail();
+                        String subject = "[BookHook] Your ticket reservation!";
+                        String message = "Thank you for the reservation!" + "\n\n" +
+                                "You can present this email at the entrance to confirm the ticket reservation." +
+                                "\n\n" + " The BookHook team";
+                        SendMail sm = new SendMail(PaymentActivity.this, recipient, subject, message);
+                        sm.execute();
                     }
                 });
                 alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
