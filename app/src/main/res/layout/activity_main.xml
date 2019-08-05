@@ -18,7 +18,8 @@
             android:gravity="center"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/event_description_header_selector">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,13 +43,23 @@
                 android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+
+            <EditText
+                android:layout_margin="15dp"
+                android:hint="Enter your full name"
+                android:id="@+id/editFullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
             
             <Button
                 android:layout_margin="15dp"
                 android:id="@+id/buttonRegister"
                 android:text="Register User"
+                android:textColor="@color/colorTextOrange"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_selector"/>
             
             <TextView
                 android:gravity="center"

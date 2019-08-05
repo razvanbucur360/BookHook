@@ -8,7 +8,8 @@
         android:gravity="center"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/event_description_header_selector">
 
         <TextView
             android:layout_width="wrap_content"
@@ -37,8 +38,25 @@
             android:layout_margin="15dp"
             android:id="@+id/buttonSignIn"
             android:text="Log in"
+            android:textColor="@color/colorTextOrange"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_selector"/>
+
+        <!--<TextView-->
+            <!--android:gravity="center"-->
+            <!--android:text="or"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
+
+        <!--<Button-->
+            <!--android:layout_margin="15dp"-->
+            <!--android:id="@+id/buttonSignInWithPhone"-->
+            <!--android:text="Log in using phone number"-->
+            <!--android:textColor="@color/colorTextOrange"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/button_selector"/>-->
 
         <TextView
             android:gravity="center"

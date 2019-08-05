@@ -40,6 +40,7 @@ import static com.example.bookhook2.util.Constants.MAPVIEW_BUNDLE_KEY;
 
 public class EventDescriptionFragment extends Fragment implements OnMapReadyCallback, View.OnClickListener {
 
+    private static final int REQUEST_CODE = 101;
     private Event event = null;
     private Context mContext = getContext();
     private MapView mMapView;
@@ -56,7 +57,7 @@ public class EventDescriptionFragment extends Fragment implements OnMapReadyCall
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = (View)inflater.inflate(R.layout.event_description, container, false);
+        View view = (View)inflater.inflate(R.layout.event_description_fragment, container, false);
         mContext = view.getContext();
         mMapView = view.findViewById(R.id.event_map);
         mBuyButton = view.findViewById(R.id.buyButton);
@@ -159,13 +160,8 @@ public class EventDescriptionFragment extends Fragment implements OnMapReadyCall
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(getActivity(), new String[]
+                    {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
             return;
         }
         map.setMyLocationEnabled(true);

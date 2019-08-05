@@ -1,4 +1,5 @@
 package com.example.bookhook2;
+
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -27,6 +28,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 
 import net.danlew.android.joda.JodaTimeAndroid;
@@ -43,9 +46,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button buttonRegister;
     private EditText editTextEmail;
     private EditText editTextPassword;
+    private EditText editFullName;
     private TextView textViewSignIn;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         mFireBaseDataBase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-
+        user = firebaseAuth.getCurrentUser();
         if(firebaseAuth.getCurrentUser() != null && firebaseAuth.getCurrentUser().isEmailVerified()){
             finish();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
@@ -63,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonRegister = (Button) findViewById(R.id.buttonRegister);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        editFullName = (EditText) findViewById(R.id.editFullName);
+
         textViewSignIn = (TextView) findViewById(R.id.textSignIn);
         progressDialog = new ProgressDialog(this);
 
@@ -202,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void registerUser() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+        final String fullName = editFullName.getText().toString().trim();
 
         if(TextUtils.isEmpty(email)){
             Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
@@ -212,6 +220,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if(TextUtils.isEmpty(fullName)){
+            Toast.makeText(this, "Please enter your full name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         progressDialog.setMessage("Registering User...");
         progressDialog.show();
 
@@ -221,7 +235,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if(task.isSuccessful()){
-                            firebaseAuth.getCurrentUser().sendEmailVerification()
+                            user = firebaseAuth.getCurrentUser();
+                            user.sendEmailVerification()
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
@@ -229,6 +244,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 Toast.makeText(MainActivity.this,
                                                         "Registered successfully. Please check email for verification.",
                                                         Toast.LENGTH_LONG).show();
+                                                UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
+                                                        .setDisplayName(fullName)
+                                                        .build();
+                                                user.updateProfile(profile);
                                                 finish();
                                                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                                             }
