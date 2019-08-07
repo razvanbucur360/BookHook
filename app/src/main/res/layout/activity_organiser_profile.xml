@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/graylight"
-    android:orientation="vertical"
-    android:weightSum="12">
-    <LinearLayout
+    android:orientation="vertical">
+    <RelativeLayout
         android:background="@drawable/event_description_header_selector"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6.5"
-        android:orientation="vertical">
+        android:layout_height="120dp"
+        android:orientation="vertical"
+        android:id="@+id/profileHeader">
         <ImageView
+            android:scaleType="centerCrop"
             android:id="@+id/userProfileImage"
-            android:layout_marginTop="45dp"
-            android:layout_gravity="center"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/photocircle"
+            android:layout_centerInParent="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/profile_item"
             android:background="@drawable/ic_profile"/>
         <TextView
             android:id="@+id/userFullName"
@@ -27,81 +26,108 @@
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User Name"
+            android:text="Razvan Bucur"
             android:textColor="#fff"
             android:textStyle="bold"
-            android:textSize="21sp"/>
-    </LinearLayout>
+            android:textSize="21sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/profileHeader">
+
         <LinearLayout
-            android:orientation="horizontal"
-            android:paddingLeft="25dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_email_black_24dp"/>
-            <TextView
-                android:id="@+id/user_email"
-                android:textStyle="bold"
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_height="0dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:text="useremail@gmail.com"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_marginTop="22dp"
-            android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_phone_android_black_24dp"/>
-            <TextView
-                android:textStyle="bold"
-                android:id="@+id/user_phone_number"
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
+                android:paddingLeft="13dp"
+                android:paddingRight="13dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_marginLeft="25dp"
+                android:background="@drawable/profile_item">
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/ic_email_black_24dp"/>
+                <TextView
+                    android:id="@+id/user_email"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:text="useremail@gmail.com"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="22dp"
+                android:orientation="horizontal"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:text="Add phone number"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_marginTop="22dp"
-            android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_location_24dp"/>
-            <TextView
-                android:id="@+id/user_location"
-                android:textStyle="bold"
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
+                android:paddingLeft="13dp"
+                android:paddingRight="13dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_marginLeft="25dp"
+
+                android:background="@drawable/profile_item">
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/ic_phone_android_black_24dp"/>
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/user_phone_number"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:text="Add phone number"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="22dp"
+                android:orientation="horizontal"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:text="Location"/>
+                android:layout_width="300dp"
+                android:paddingLeft="13dp"
+                android:paddingRight="13dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_marginLeft="25dp"
+                android:background="@drawable/profile_item">
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/ic_location_24dp"/>
+                <TextView
+                    android:id="@+id/user_location"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:text="Location"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="35dp"
+        android:layout_marginBottom="25dp"
+        android:layout_alignParentBottom="true"
         android:gravity="center">
 
         <Button
@@ -126,6 +152,4 @@
 
     </LinearLayout>
 
-
-
-</LinearLayout>
+</RelativeLayout>
