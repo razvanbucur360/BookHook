@@ -1,4 +1,4 @@
-package com.example.bookhook2;
+package com.example.bookhook2.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

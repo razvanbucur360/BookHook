@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/event_description_header_selector">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/event_description_header_selector"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="65dp">
+
+        <EditText
+            android:id="@+id/editTextEventName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:hint="Event name"
+            android:focusable="true"/>
+
+        <EditText
+            android:id="@+id/editTextEventLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:hint="Event location" />
+
+        <EditText
+            android:id="@+id/editTextEventDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:hint="Event description" />
+
+        <EditText
+            android:id="@+id/editTextEventImageURL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:hint="Event image URL" />
+
+        <EditText
+            android:id="@+id/editTextEventAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:hint="Event Address" />
+
+        <EditText
+            android:id="@+id/editTextEventDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:hint="Event Date" />
+
+        <EditText
+            android:id="@+id/editTextEventPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:hint="Event price" />
+
+        <Spinner
+            android:id="@+id/spinnerEventCategory"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="15dp" />
+
+        <Button
+            android:id="@+id/buttonSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button_selector"
+            android:text="Submit"
+            android:textColor="@color/colorTextOrange" />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,4 +1,4 @@
-package com.example.bookhook2;
+package com.example.bookhook2.util;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.bookhook2.R;
 import com.example.bookhook2.fragments.UserProfileFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

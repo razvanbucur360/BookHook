@@ -1,4 +1,4 @@
-package com.example.bookhook2;
+package com.example.bookhook2.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.bookhook2.R;
 import com.example.bookhook2.fragments.AllCategoryEventsFragment;
 import com.example.bookhook2.fragments.EventListFragment;
 import com.example.bookhook2.fragments.ExploreFragment;

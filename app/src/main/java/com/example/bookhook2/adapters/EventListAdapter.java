@@ -8,10 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.bookhook2.NetworkUtils;
+import com.example.bookhook2.util.NetworkUtils;
 import com.example.bookhook2.R;
 import com.example.bookhook2.models.Event;
 

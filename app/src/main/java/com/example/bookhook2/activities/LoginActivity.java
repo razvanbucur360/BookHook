@@ -1,4 +1,4 @@
-package com.example.bookhook2;
+package com.example.bookhook2.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bookhook2.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -35,10 +36,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        if(firebaseAuth.getCurrentUser() != null && firebaseAuth.getCurrentUser().isEmailVerified()){
-            finish();
-            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-        }
+//        if(firebaseAuth.getCurrentUser() != null && firebaseAuth.getCurrentUser().getEmail().contains("organiser")){
+//            finish();
+//            startActivity(new Intent(getApplicationContext(), OrganiserProfileActivity.class));
+//        }
+//
+//        if(firebaseAuth.getCurrentUser() != null && firebaseAuth.getCurrentUser().isEmailVerified()){
+//            finish();
+//            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+//        }
+
 
         progressDialog = new ProgressDialog(this);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
@@ -85,14 +92,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if(task.isSuccessful()){
-                            if(firebaseAuth.getCurrentUser().isEmailVerified()){
+                            if(firebaseAuth.getCurrentUser().getEmail().contains("organiser")){
                                 finish();
-                                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                                startActivity(new Intent(getApplicationContext(), OrganiserProfileActivity.class));
                             }
                             else{
-                                Toast.makeText(LoginActivity.this,
-                                        "Please verify your email address.",
-                                        Toast.LENGTH_LONG).show();
+                                if(firebaseAuth.getCurrentUser().isEmailVerified()){
+                                    finish();
+                                    startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                                }
+                                else{
+                                    Toast.makeText(LoginActivity.this,
+                                            "Please verify your email address.",
+                                            Toast.LENGTH_LONG).show();
+                                }
                             }
                         }
                     }

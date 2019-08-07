@@ -1,4 +1,4 @@
-package com.example.bookhook2;
+package com.example.bookhook2.activities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.braintreepayments.cardform.view.CardForm;
+import com.example.bookhook2.R;
+import com.example.bookhook2.util.SendMail;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class PaymentActivity extends AppCompatActivity implements View.OnClickListener {

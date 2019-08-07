@@ -22,8 +22,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.bookhook2.LoginActivity;
-import com.example.bookhook2.VerifyPhoneNumberActivity;
+import com.example.bookhook2.activities.LoginActivity;
+import com.example.bookhook2.util.VerifyPhoneNumberActivity;
 import com.example.bookhook2.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;

@@ -1,4 +1,4 @@
-package com.example.bookhook2;
+package com.example.bookhook2.activities;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.bookhook2.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -60,9 +61,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFireBaseDataBase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
+//        if(firebaseAuth.getCurrentUser() != null && firebaseAuth.getCurrentUser().isEmailVerified()){
+//            finish();
+//            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+//        }
+        if(firebaseAuth.getCurrentUser() != null && firebaseAuth.getCurrentUser().getEmail().contains("organiser")){
+            finish();
+            startActivity(new Intent(getApplicationContext(), OrganiserProfileActivity.class));
+        }
+
         if(firebaseAuth.getCurrentUser() != null && firebaseAuth.getCurrentUser().isEmailVerified()){
             finish();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
         }
 
         buttonRegister = (Button) findViewById(R.id.buttonRegister);
@@ -236,28 +246,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         progressDialog.dismiss();
                         if(task.isSuccessful()){
                             user = firebaseAuth.getCurrentUser();
-                            user.sendEmailVerification()
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                Toast.makeText(MainActivity.this,
-                                                        "Registered successfully. Please check email for verification.",
-                                                        Toast.LENGTH_LONG).show();
-                                                UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
-                                                        .setDisplayName(fullName)
-                                                        .build();
-                                                user.updateProfile(profile);
-                                                finish();
-                                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                            if(user.getEmail().contains("organiser")){
+                                UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(fullName)
+                                        .build();
+                                user.updateProfile(profile);
+                                finish();
+                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                            }
+                            else{
+                                user.sendEmailVerification()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+                                                    Toast.makeText(MainActivity.this,
+                                                            "Registered successfully. Please check email for verification.",
+                                                            Toast.LENGTH_LONG).show();
+
+                                                }
+                                                else{
+                                                    Toast.makeText(MainActivity.this,
+                                                            task.getException().getMessage(),
+                                                            Toast.LENGTH_LONG).show();
+                                                }
                                             }
-                                            else{
-                                                Toast.makeText(MainActivity.this,
-                                                        task.getException().getMessage(),
-                                                        Toast.LENGTH_LONG).show();
-                                            }
-                                        }
-                                    });
+                                        });
+                            }
                         }
                         else{
                             Toast.makeText(MainActivity.this, "Could not register, please try again",Toast.LENGTH_SHORT).show();

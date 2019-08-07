@@ -12,11 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bookhook2.NetworkUtils;
+import com.example.bookhook2.util.NetworkUtils;
 import com.example.bookhook2.R;
 import com.example.bookhook2.models.Category;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 

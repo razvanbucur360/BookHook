@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">BookHook2</string>
+    <string name="app_name">Book Hook</string>
+    <string-array name="categories">
+        <item>Sports</item>
+        <item>Social</item>
+        <item>Music</item>
+        <item>Cultural</item>
+    </string-array>
 </resources>
